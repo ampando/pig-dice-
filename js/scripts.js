@@ -1,11 +1,12 @@
 //Business Logic 
 
-function Player(yourTurn, rollCount, totalScore, turnScore, rollValue) {
+function Player(yourTurn, rollCount, totalScore, turnScore, rollValue, winner) {
   this.yourTurn = yourTurn;
   this.rollCount = rollCount; 
   this.totalScore = totalScore;
   this.turnScore = turnScore;
   this.rollValue = rollValue;
+  this.winner = winner;
 }
 
 Player.prototype.rollDice = function() {
@@ -22,11 +23,15 @@ Player.prototype.rollDice = function() {
     this.yourTurn = true;
   } 
 
-  if (this.totalScore >= 100) {
-    console.log("YOU WIN!!!");
-  }
 };
 
+Player.prototype.checkWinner = function() {
+  if (this.totalScore >= 100) {
+    player1.winner = "Player 1 Wins!";
+  } else if (player2.totalScore >= 100) {
+      player2.winner = "Player 2 Wins!";
+    }
+}
 
 Player.prototype.hold = function() {
   this.yourTurn = false;
@@ -37,11 +42,6 @@ Player.prototype.hold = function() {
 
 //User Interface Logic 
 
-/*let pigDice = new PigDice();
-
-function displayRollCount(rollCountToDisplay) {
-  
-}*/
 function showController () {
   if (Player["yourTurn"] === true) {
     $(".show-controller").show();
@@ -51,7 +51,6 @@ function showController () {
 }
 
 $(document).ready(function() {
-  //showController();
 
   let player1 = new Player(false, 0, 0, 0, 0);
     console.log(player1);
@@ -64,19 +63,30 @@ $(document).ready(function() {
       $("#player1TurnScore").text(player1.turnScore);
       $("#player1RollResult").text(player1.rollValue);
       $("#player1RollCount").text(player1.rollCount);
-      console.log(player1);
     })
 
-$("#holdPlayer1").on("click", function(){
+$("#holdPlayer1").on("click", function() {
   player1.hold();
   $("#player1Score").text(player1.totalScore);
 })
   
   $("#rollPlayer2").on("click", function() {
     player2.rollDice();
-    $("#player2Score").text(player2.score);
+    $("#player2Score").text(player2.totalScore);
+    $("#player2TurnScore").text(player2.turnScore);
+    $("#player2RollResult").text(player2.rollValue);
     $("#player2RollCount").text(player2.rollCount);
     console.log(player2);
   })
 
+  $("#holdPlayer2").on("click", function() {
+    player2.hold();
+    $("#player2Score").text(player2.totalScore);
+  })
+  player1.checkWinner();
+  player2.checkWinner();
+  $(".youWin").html(player1.winner);
+  $(".youWin").html(player2.winner);
+  $(".youWin").show();
 });
+

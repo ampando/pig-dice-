@@ -1,0 +1,56 @@
+body {
+  background-color: #A620BA;
+  color: pink;
+  font-family: 'Press Start 2P'
+}
+
+.container {
+  display: flex;  
+}
+
+.player1 {
+  background-color: #6D157A;
+  padding: 5%;
+  margin: 5%;
+  width: 40%;
+  border-radius: 5%;
+}
+
+.player2 {
+  background-color: #DE2AFA;
+  padding: 5%;
+  margin: 5%;
+  width: 40%;
+  border-radius: 5%;
+}
+.youWin {
+  position: absolute;
+  left: 20%;
+  top: 50%;
+  z-index: 10;
+  width: 60%;
+  padding: 10%;
+  text-align: center;
+  background-color: white;
+  display: none;
+}
+span {
+  font-size: 24pt;
+}
+p {
+  margin: 1em;
+}
+
+h1 {
+  margin: auto;
+  border-radius: 5%;
+  text-align: center;
+  font-size: auto;
+  color: #6D157A;
+  background-color: gold;
+  border: 8px solid #DE2AFA;
+  padding: 10px;
+  width: 20%;
+}
+
+
