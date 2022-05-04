@@ -27,10 +27,8 @@ Player.prototype.rollDice = function() {
 
 Player.prototype.checkWinner = function() {
   if (this.totalScore >= 100) {
-    player1.winner = "Player 1 Wins!";
-  } else if (player2.totalScore >= 100) {
-      player2.winner = "Player 2 Wins!";
-    }
+    this.winner = true;
+  }
 }
 
 Player.prototype.hold = function() {
@@ -41,22 +39,33 @@ Player.prototype.hold = function() {
 };
 
 //User Interface Logic 
+let player1 = new Player(false, 0, 0, 0, 0);
+let player2 = new Player(true, 0, 0, 0, 0);
 
 function showController () {
-  if (Player["yourTurn"] === true) {
-    $(".show-controller").show();
+  if (player1["yourTurn"] === false) {
+    $("#show-controller1").show();
   } else {
-    $(".show-controller").hide();
+    $("#show-controller1").hide();
+    $("#show-controller2").show();
+  }
+  if (player2["yourTurn"] === true) {
+    $("#show-controller2").show();
+  } else {
+    $("#show-controller2").hide();
+    $("#show-controller1").show();
   }
 }
 
+
+
 $(document).ready(function() {
 
-  let player1 = new Player(false, 0, 0, 0, 0);
-    console.log(player1);
-  let player2 = new Player(true, 0, 0, 0, 0);
-    console.log(player2);
+  // let player1 = new Player(true, 0, 0, 0, 0);
+  // let player2 = new Player(false, 0, 0, 0, 0);
 
+  showController()
+    
     $("#rollPlayer1").on("click", function() {
       player1.rollDice();
       $("#player1Score").text(player1.totalScore);
@@ -68,6 +77,14 @@ $(document).ready(function() {
 $("#holdPlayer1").on("click", function() {
   player1.hold();
   $("#player1Score").text(player1.totalScore);
+  $("#player-turn").text("Player 2, You're up!");
+  player1.checkWinner();
+
+  if (player1.winner === true) {
+    $(".youWin").show().html("Player one wins!!!");
+    $("#player-turn").hide();
+  }
+
 })
   
   $("#rollPlayer2").on("click", function() {
@@ -76,17 +93,21 @@ $("#holdPlayer1").on("click", function() {
     $("#player2TurnScore").text(player2.turnScore);
     $("#player2RollResult").text(player2.rollValue);
     $("#player2RollCount").text(player2.rollCount);
-    console.log(player2);
   })
 
   $("#holdPlayer2").on("click", function() {
     player2.hold();
     $("#player2Score").text(player2.totalScore);
+    $("#player-turn").text("Player 1, You're next!");
+    player2.checkWinner();
+    if (player2.winner === true) {
+      $(".youWin").show().html("Player two wins!!!");
+      $("#player-turn").hide();
+    }
+    //showController();
   })
-  player1.checkWinner();
-  player2.checkWinner();
-  $(".youWin").html(player1.winner);
-  $(".youWin").html(player2.winner);
-  $(".youWin").show();
+  
 });
+
+
 
